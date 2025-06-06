@@ -38,6 +38,9 @@ class ProductoController extends Controller
     */
     public function show(string $id)
     {
+        $producto = Producto::find($id);
+        $categorias = Categoria::all();
+        return view('productos.edit', compact('producto'), compact('categorias'));
     }
 
     /*
@@ -45,6 +48,10 @@ class ProductoController extends Controller
     */
     public function edit(string $id)
     {
+        $producto = Producto::findOrFail($id);
+        $categorias = Categoria::all(); 
+        
+        return view('productos.edit', compact('producto', 'categorias'));
     }
 
     /*
@@ -52,6 +59,7 @@ class ProductoController extends Controller
     */
     public function update(Request $request, string $id)
     {
+        Producto::find($id)->update($request->all()); return redirect()->route('productos.index');
     }
 
     /*
@@ -59,5 +67,7 @@ class ProductoController extends Controller
     */
     public function destroy(string $id)
     {
+        Producto::find($id)->delete();
+        return redirect()->route('productos.index');
     }
 }
