@@ -29,8 +29,17 @@ class ProductoController extends Controller
     */
     public function store(Request $request)
     {
-        Producto::create($request->all());
-        return redirect()->route('productos.index');
+        $request->validate([
+        'nombre' => 'required',
+        'marca' => 'nullable|string',
+        'precio' => 'required|numeric',
+        'stock' => 'required|integer',
+        'id_categoria' => 'required|integer',
+        ]);
+
+        Producto::create($request->except('_token'));
+
+        return redirect()->route('productos.index')->with('success', 'Producto creado correctamente.');
     }
 
     /*
